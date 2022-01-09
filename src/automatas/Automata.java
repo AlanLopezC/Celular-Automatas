@@ -27,6 +27,7 @@ public class Automata extends AnimationTimer {
         line.setStroke(Color.WHITE);
         root.getChildren().add(text);
         root.getChildren().add(line);
+        
     }
 
     @Override
