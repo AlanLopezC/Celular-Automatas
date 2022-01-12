@@ -2,11 +2,14 @@ package automatas;
 
 import java.util.ArrayList;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class Epidemia extends Automata {
 
@@ -18,6 +21,21 @@ public class Epidemia extends Automata {
     public Epidemia(int width, int height) {
         super(width, height);
         initRightMenu();
+    }
+
+    @Override
+    public void initTimeline(int steps) {
+        final Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.millis(500),
+                        event -> {
+                            step();
+                        }));
+        timeline.setCycleCount(steps);
+        timeline.play();
+        timeline.setOnFinished(e -> {
+            Graph.display(getCriticals());
+        });
     }
 
     @Override

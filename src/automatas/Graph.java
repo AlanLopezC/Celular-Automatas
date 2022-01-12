@@ -13,7 +13,7 @@ public class Graph {
     public static void display(Object[] criticals) {
         Stage stage = new Stage();
 
-        stage.initModality(Modality.APPLICATION_MODAL);
+        // stage.initModality(Modality.APPLICATION_MODAL);
 
         // * Graph
         // defining the axes
@@ -40,6 +40,7 @@ public class Graph {
 
         Scene scene = new Scene(layout, 500, 500);
         stage.setScene(scene);
-        stage.showAndWait();
+        stage.show();
+        // stage.showAndWait();
     }
 }

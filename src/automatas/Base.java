@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 public class Base extends Application {
 
     int x = 30, y = 40;
+    int steps = 10;
     Automata automata;
     BorderPane layout;
     GridPane grid;
@@ -57,8 +58,10 @@ public class Base extends Application {
         HBox bottomMenu = new HBox(10);
         Text text1 = new Text("x");
         Text text2 = new Text("y");
+        Text text3 = new Text("steps");
         TextField textField1 = new TextField(String.valueOf(x));
         TextField textField2 = new TextField(String.valueOf(y));
+        TextField textField3 = new TextField(String.valueOf(steps));
         Button button1 = new Button("Change dimensions / Reset");
         button1.setOnAction(e -> {
             if (isInt(textField1.getText()) & isInt(textField2.getText())) {
@@ -71,18 +74,14 @@ public class Base extends Application {
             }
         });
 
-        Button button2 = new Button("Step");
+        Button button2 = new Button("Start");
         button2.setOnAction(e -> {
-            automata.step();
-            // display count
+            y = Integer.parseInt(textField2.getText());
+            steps = Integer.parseInt(textField3.getText());
+            automata.initTimeline(steps);
         });
 
-        Button button3 = new Button("Graph");
-        button3.setOnAction(e -> {
-            Graph.display(automata.getCriticals());
-        });
-
-        bottomMenu.getChildren().addAll(text1, textField2, text2, textField1, button1, button2, button3);
+        bottomMenu.getChildren().addAll(text1, textField2, text2, textField1, button1, text3, textField3, button2);
 
         // Automata
         automata = epidemia;

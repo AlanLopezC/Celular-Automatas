@@ -25,6 +25,8 @@ public abstract class Automata {
 
     protected abstract void createGrid();
 
+    protected abstract void initTimeline(int steps);
+
     public void createNewGrid(int width, int height) {
         this.width = width;
         this.height = height;
