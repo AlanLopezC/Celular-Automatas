@@ -1,10 +1,10 @@
 PATH_TO_FX=/home/alanlopez/Documents/Programming/Java/javafx-sdk-17.0.1/lib
 
 compile:
-	javac --module-path $(PATH_TO_FX) --add-modules=javafx.controls -d ./classes --source-path ./src src/automatas/Demo.java
+	javac --module-path $(PATH_TO_FX) --add-modules=javafx.controls -d ./classes --source-path ./src src/automatas/Base2.java
 
 run:
-	java --module-path $(PATH_TO_FX) --add-modules=javafx.controls -classpath classes automatas.Demo
+	java --module-path $(PATH_TO_FX) --add-modules=javafx.controls -classpath classes automatas.Base2
 
 .PHONY: clean
 clean:

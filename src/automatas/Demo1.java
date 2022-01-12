@@ -20,22 +20,22 @@ public class Demo1 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Automata");
-        
+
         Group root = new Group();
         Scene scene = new Scene(root, 800, 600, Color.BLACK);
         primaryStage.setScene(scene);
-        
-        Automata a = new Automata(root);
+
+        Automata_ej a = new Automata_ej(root);
         a.start();
 
         primaryStage.show();
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

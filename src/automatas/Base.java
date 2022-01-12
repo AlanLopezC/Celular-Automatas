@@ -23,12 +23,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Demo extends Application {
+public class Base extends Application {
 
     Stage stage;
     GridPane grid;
     int x = 40, y = 30;
     Rectangle[][] matrix;
+    int[][] states;
     BorderPane borderPane;
 
     /**
@@ -47,7 +48,7 @@ public class Demo extends Application {
         HBox topMenu = new HBox(10);
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         choiceBox.getItems().addAll("Incendio Forestal", "Epidemia");
-        choiceBox.setValue("Incendio Forestal");
+        choiceBox.setValue("Epidemia");
         topMenu.getChildren().add(choiceBox);
 
         // Listen ChoiceBox changes
@@ -76,7 +77,6 @@ public class Demo extends Application {
 
         // Grid
         grid = new GridPane();
-        grid.setMaxHeight(400);
         grid.setPadding(new Insets(10));
         createGrid();
         grid.setGridLinesVisible(true);
@@ -120,10 +120,14 @@ public class Demo extends Application {
         int max = Integer.max(x, y);
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                Rectangle rect = new Rectangle(750 / max, 750 / max, Color.WHITE);
+                Rectangle rect = new Rectangle(700 / max, 700 / max, Color.WHITE);
                 matrix[i][j] = rect;
+                final int final_i = i;
+                final int final_j = j;
                 rect.setOnMouseClicked(e -> {
                     rect.setFill(Color.RED);
+                    System.out.println(final_i);
+                    System.out.println(final_j);
                 });
             }
         }
@@ -131,7 +135,7 @@ public class Demo extends Application {
 
     private void createNewGrid() {
         grid = new GridPane();
-        grid.setMaxHeight(1200);
+        grid.setMaxHeight(400);
         grid.setPadding(new Insets(10));
         createGrid();
         grid.setGridLinesVisible(true);

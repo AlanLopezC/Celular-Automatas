@@ -1,38 +1,49 @@
-/*
- * Autómatas
- */
 package automatas;
 
-import javafx.animation.AnimationTimer;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
-/**
- *
- * @author blackzafiro
- */
-public class Automata extends AnimationTimer {
-    
-    private Group root;
-    private Text text;
-    
-    public Automata(Group root) {
-        this.root = root;
-        text = new Text ("Inicio");
-        text.setStroke(Color.WHITE);
-        text.setY(200);
-        Line line = new Line(0, 210, 800, 210);
-        line.setStroke(Color.WHITE);
-        root.getChildren().add(text);
-        root.getChildren().add(line);
-        
+public abstract class Automata {
+
+    protected int width;
+    protected int height;
+    protected GridPane grid;
+
+    protected VBox rightMenu = new VBox(10);
+
+    protected int currStep = 0;
+
+    public Automata(int width, int height) {
+        this.width = width;
+        this.height = height;
+        createGrid();
     }
 
-    @Override
-    public void handle(long now) {
-        text.setText("Tiempo " + now);
+    protected void doStep() {
+        currStep++;
     }
-    
+
+    protected abstract void createGrid();
+
+    public void createNewGrid(int width, int height) {
+        this.width = width;
+        this.height = height;
+        createGrid();
+    }
+
+    public GridPane getGrid() {
+        return grid;
+    }
+
+    public VBox getRightMenu() {
+        return rightMenu;
+    }
+
+    protected abstract void initRightMenu();
+
+    public abstract void step();
+
+    public abstract Object[] getCriticals();
+
+    public abstract void resetCriticals();
 }
