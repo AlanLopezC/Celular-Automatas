@@ -149,4 +149,9 @@ public class Epidemia extends Automata {
         grid.setGridLinesVisible(true);
 
     }
+
+    @Override
+    public void resetCriticals() {
+        criticals = new ArrayList<Integer>();
+    }
 }

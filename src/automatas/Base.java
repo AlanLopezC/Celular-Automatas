@@ -6,10 +6,7 @@
 package automatas;
 
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -17,44 +14,43 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Base extends Application {
 
-    Stage stage;
+    int x = 30, y = 40;
+    Automata automata;
+    BorderPane layout;
     GridPane grid;
-    int x = 40, y = 30;
-    Rectangle[][] matrix;
-    int[][] states;
-    BorderPane borderPane;
+    Epidemia epidemia = new Epidemia(x, y);
+    Incendio incendio = new Incendio(x, y);
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        stage = primaryStage;
-        stage.setTitle("Autómatas");
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Automátas");
 
         // Top menu
         HBox topMenu = new HBox(10);
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll("Incendio Forestal", "Epidemia");
+        choiceBox.getItems().addAll("Epidemia", "Incendio Forestal");
         choiceBox.setValue("Epidemia");
         topMenu.getChildren().add(choiceBox);
 
         // Listen ChoiceBox changes
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            // *Need to change
-            System.out.println(newValue);
+            if (newValue.compareTo("Epidemia") == 0) {
+                automata = epidemia;
+            } else {
+                automata = incendio;
+            }
+            layout.setCenter(automata.getGrid());
+            layout.setRight(automata.getRightMenu());
         });
 
         // Bottom menu
@@ -68,29 +64,46 @@ public class Base extends Application {
             if (isInt(textField1.getText()) & isInt(textField2.getText())) {
                 x = Integer.parseInt(textField1.getText());
                 y = Integer.parseInt(textField2.getText());
-                createNewGrid();
+                automata.resetCriticals();
+                automata.createNewGrid(x, y);
+                grid = automata.getGrid();
+                layout.setCenter(grid);
             }
         });
-        Button button2 = new Button("Begin");
 
-        bottomMenu.getChildren().addAll(text1, textField1, text2, textField2, button1, button2);
+        Button button2 = new Button("Step");
+        button2.setOnAction(e -> {
+            automata.step();
+            // display count
+        });
+
+        Button button3 = new Button("Graph");
+        button3.setOnAction(e -> {
+            Graph.display(automata.getCriticals());
+        });
+
+        bottomMenu.getChildren().addAll(text1, textField2, text2, textField1, button1, button2, button3);
+
+        // Automata
+        automata = epidemia;
 
         // Grid
-        grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        createGrid();
-        grid.setGridLinesVisible(true);
+        grid = automata.getGrid();
+
+        // RightMenu
+        VBox rightMenu = automata.getRightMenu();
 
         // Layout
-        borderPane = new BorderPane();
-        borderPane.setStyle("-fx-background-color: beige;");
-        borderPane.setPadding(new Insets(10));
-        borderPane.setTop(topMenu);
-        borderPane.setBottom(bottomMenu);
-        borderPane.setCenter(grid);
+        layout = new BorderPane();
+        layout.setStyle("-fx-background-color: beige;");
+        layout.setPadding(new Insets(10));
+        layout.setTop(topMenu);
+        layout.setBottom(bottomMenu);
+        layout.setCenter(grid);
+        layout.setRight(rightMenu);
 
         // Scene
-        Scene scene = new Scene(borderPane, 800, 650);
+        Scene scene = new Scene(layout, 1000, 700);
         stage.setScene(scene);
         stage.show();
     }
@@ -103,42 +116,5 @@ public class Base extends Application {
             // * Display message, also if 0 < num < constraints
             return false;
         }
-    }
-
-    private void createGrid() {
-
-        createMatrix();
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                grid.add(matrix[i][j], i, j);
-            }
-        }
-    }
-
-    private void createMatrix() {
-        matrix = new Rectangle[x][y];
-        int max = Integer.max(x, y);
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                Rectangle rect = new Rectangle(700 / max, 700 / max, Color.WHITE);
-                matrix[i][j] = rect;
-                final int final_i = i;
-                final int final_j = j;
-                rect.setOnMouseClicked(e -> {
-                    rect.setFill(Color.RED);
-                    System.out.println(final_i);
-                    System.out.println(final_j);
-                });
-            }
-        }
-    }
-
-    private void createNewGrid() {
-        grid = new GridPane();
-        grid.setMaxHeight(400);
-        grid.setPadding(new Insets(10));
-        createGrid();
-        grid.setGridLinesVisible(true);
-        borderPane.setCenter(grid);
     }
 }
