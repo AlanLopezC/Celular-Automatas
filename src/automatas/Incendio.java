@@ -2,7 +2,6 @@ package automatas;
 
 import java.util.ArrayList;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;

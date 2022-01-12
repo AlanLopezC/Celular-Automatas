@@ -58,7 +58,8 @@ public class Epidemia extends Automata {
                 a = Integer.parseInt(textField2.getText());
             }
         });
-        rightMenu.getChildren().addAll(text1, textField1, text2, textField2, button1);
+        Text text3 = new Text("Click in cells to become ill");
+        rightMenu.getChildren().addAll(text1, textField1, text2, textField2, button1, text3);
     }
 
     private boolean isInt(String message) {
